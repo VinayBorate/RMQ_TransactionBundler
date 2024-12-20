@@ -1,20 +1,24 @@
-```markdown
+---
+
 # RMQ_TransactionBundler
 
 ## Project Description
-The **RMQ_TransactionBundler** project is designed to handle the serialization and deserialization of transaction messages, ensuring data integrity and configurability. This project facilitates the bundling of deserialized messages and their subsequent transmission to RabbitMQ (RMQ) in a structured format. It includes configurable parameters for bundle size, timeout, and local dumping for debugging purposes.
+The **RMQ_TransactionBundler** project is designed to handle serialization and deserialization of transaction messages while ensuring data integrity and configurability. It bundles deserialized messages and transmits them to RabbitMQ (RMQ) in a structured format. Configurable parameters like bundle size, timeout, and local dumping for debugging enhance its flexibility.
+
+---
 
 ## Technology and Frameworks Used
-- **C++17**: The core programming language used for the project.
-- **Boost Libraries**: Used for shared memory management, containers, and CRC computation.
-- **RabbitMQ**: For message queuing and handling.
-- **nlohmann/json**: For JSON serialization and deserialization.
-- **spdlog**: For logging.
-- **CMake**: For build configuration.
+- **C++17**: Core programming language.
+- **Boost Libraries**: For shared memory management, containers, and CRC computation.
+- **RabbitMQ**: Message queuing and handling.
+- **nlohmann/json**: JSON serialization and deserialization.
+- **spdlog**: Logging.
+- **CMake**: Build configuration.
+
+---
 
 ## Project Structure
-
-```
+```plaintext
 .
 ├── CMakeLists.txt
 ├── README.md
@@ -36,12 +40,12 @@ The **RMQ_TransactionBundler** project is designed to handle the serialization a
 │   └── values.config
 ├── lib
 │   ├── Boost_Headers
-│   ├── Boost_libraries
+│   ├── Boost_Libraries
 │   ├── nlohmann_Json_Header
-│   ├── rabbitmq_Headers
-│   ├── rabbitmq_Libraries
+│   ├── RabbitMQ_Headers
+│   ├── RabbitMQ_Libraries
 │   ├── spdlog
-│   └── spdlog_libraries
+│   └── spdlog_Libraries
 ├── messageclass
 │   └── src
 │       └── UserMessages_Data.h
@@ -53,76 +57,95 @@ The **RMQ_TransactionBundler** project is designed to handle the serialization a
         └── sender.cpp
 ```
 
+---
+
 ## Project Images
-Include relevant images or diagrams here to illustrate the project structure, data flow, or any other important aspects.
+(Add relevant diagrams, screenshots, or visuals here to illustrate the structure, data flow, or functionality.)
+
+---
 
 ## Steps to Run the Project
+1. **Clone the Repository**:
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
 
-### Clone the Repository:
-```bash
-git clone <repository-url>
-cd <repository-directory>
-```
+2. **Build the Project**:
+   ```bash
+   mkdir build
+   cd build
+   cmake ..
+   make
+   ```
 
-### Build the Project:
-```bash
-mkdir build
-cd build
-cmake ..
-make
-```
+3. **Configure the Project**:
+   - Edit the `config/values.config` file to set desired configuration values.
 
-### Configure the Project:
-Edit the `config/values.config` file to set the desired configuration values.
+4. **Run the Sender**:
+   ```bash
+   ./sender
+   ```
 
-### Run the Sender:
-```bash
-./sender
-```
+5. **Run the Receiver**:
+   ```bash
+   ./receiver
+   ```
 
-### Run the Receiver:
-```bash
-./receiver
-```
+---
 
 ## Technical Details
 
 ### Functions and Their Purpose
 
-#### Sender.cpp
-- **generaterandommobile_number()**: Generates a random 10-digit mobile number.
-- **generaterandomip_address()**: Generates a random IP address.
-- **generaterandomcreation_time()**: Generates a random creation time in `HHMMSSMilliseconds` format.
-- **generaterandomname()**: Generates a random name from a predefined list.
-- **generaterandomemail(const std::string& name)**: Generates a random email based on the provided name.
-- **computecrc(const UserMessagesData& msg)**: Computes the CRC checksum for a given message.
-- **logtransactiontimes(const std::vector& times)**: Logs the total and average time taken for transactions.
-- **main()**: The main function that initializes the shared memory, generates random messages, computes checksums, and logs transaction details.
+**Sender.cpp**
+- `generate_random_mobile_number()`: Generates a random 10-digit mobile number.
+- `generate_random_ip_address()`: Generates a random IP address.
+- `generate_random_creation_time()`: Generates a random creation time in HHMMSSMilliseconds format.
+- `generate_random_name()`: Generates a random name from a predefined list.
+- `generate_random_email(const std::string& name)`: Generates a random email based on the provided name.
+- `compute_crc(const UserMessagesData& msg)`: Computes the CRC checksum for a message.
+- `log_transaction_times(const std::vector& times)`: Logs total and average transaction times.
+- `main()`: Initializes shared memory, generates messages, computes checksums, and logs transaction details.
 
-#### Receiver.cpp
-- **computecrc(const UserMessagesData& msg)**: Computes the CRC checksum for a given message.
-- **logreadtimes(const std::vector& times)**: Logs the total and average time taken for reading transactions.
-- **sendtorabbitmq(const std::vector& messages, const std::string& queuename, const std::string& maxbundlesizeallowed)**: Sends bundled messages to RabbitMQ.
-- **readandlogmessages(bip::managedsharedmemory& segment, std::vector& readtimes, sizet& lastprocessedindex, std::vector& messagebundle)**: Reads messages from shared memory, verifies checksums, and logs read times.
-- **dumptocsv(const std::vector& messages, const std::string& filename)**: Dumps messages to a CSV file for debugging purposes.
-- **main()**: The main function that initializes the shared memory, reads messages, sends bundles to RabbitMQ, and logs read times.
+**Receiver.cpp**
+- `compute_crc(const UserMessagesData& msg)`: Computes the CRC checksum for a message.
+- `log_read_times(const std::vector& times)`: Logs total and average read times.
+- `send_to_rabbitmq(const std::vector& messages, const std::string& queue_name, const std::string& max_bundle_size_allowed)`: Sends message bundles to RabbitMQ.
+- `read_and_log_messages(bip::managed_shared_memory& segment, std::vector& read_times, size_t& last_processed_index, std::vector& message_bundle)`: Reads messages from shared memory, verifies checksums, and logs read times.
+- `dump_to_csv(const std::vector& messages, const std::string& filename)`: Dumps messages to a CSV file for debugging.
+- `main()`: Initializes shared memory, reads messages, sends bundles to RabbitMQ, and logs details.
+
+---
+
+## Configuration File (`values.config`)
+The configuration file includes:
+- `LOGGER_LEVEL_SETT`: Logging level (e.g., info, debug).
+- `DATA_BULK_COUNT`: Number of messages generated in bulk.
+- `NAME_SHARED_MEMORY`: Shared memory segment name.
+- `SHARED_MEMORY_SIZE`: Size of the shared memory segment.
+- `LOG_TIMER_RECEIVER`: Logging interval in the receiver.
+- `NAME_RABBITMQ`: RabbitMQ queue name.
+- `DEBUGGING_MODE`: Enable/disable debugging (true/false).
+- `DUMP_CSV_FILE_NAME`: CSV file name for dumping messages.
+- `BUNDLE_SIZE`: Maximum size of a message bundle.
+
+---
 
 ## Goals and What I Learned
 
-### Goals:
-- To implement a robust system for serializing and deserializing transaction messages.
-- To ensure data integrity through CRC checksums.
-- To bundle and send messages to RabbitMQ efficiently.
-- To provide configurable parameters for flexibility and debugging.
+### Goals
+- Implement robust serialization and deserialization of transaction messages.
+- Ensure data integrity through CRC checksums.
+- Efficiently bundle and send messages to RabbitMQ.
+- Provide configurability for debugging and optimization.
 
-### What I Learned:
-- How to use **Boost libraries** for shared memory management and CRC computation.
-- How to integrate **RabbitMQ** for message queuing.
-- How to use **nlohmann/json** for JSON serialization and deserialization.
-- How to implement **logging** using **spdlog**.
-- How to configure and build a C++ project using **CMake**.
-```
+### What I Learned
+- Using Boost for shared memory management and CRC computation.
+- Integrating RabbitMQ for message queuing.
+- JSON serialization/deserialization with nlohmann/json.
+- Logging with spdlog.
+- Building a project using CMake.
 
-### Notes:
-- You can add actual images or diagrams for **Project Images** where needed.
-- Replace `<repository-url>` with the actual URL of your GitHub repository.
+--- 
+
