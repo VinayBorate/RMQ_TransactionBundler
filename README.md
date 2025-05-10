@@ -3,7 +3,7 @@
 # RMQ_TransactionBundler
 
 ## Project Description
-The **RMQ_TransactionBundler** project is designed to handle serialization and deserialization of transaction messages while ensuring data integrity and configurability. It bundles deserialized messages and transmits them to RabbitMQ (RMQ) in a structured format. Configurable parameters like bundle size, timeout, and local dumping for debugging enhance its flexibility.
+The **RMQ_TransactionBundler** project is designed to handle writing data into shared memory, while ensuring data integrity and configurability. It bundles the messages read from shared memory and transmits them to RabbitMQ (RMQ) in a structured format. Configurable parameters like bundle size, timeout, and local dumping for debugging enhance its flexibility.
 
 ---
 
@@ -11,7 +11,6 @@ The **RMQ_TransactionBundler** project is designed to handle serialization and d
 - **C++17**: Core programming language.
 - **Boost Libraries**: For shared memory management, containers, and CRC computation.
 - **RabbitMQ**: Message queuing and handling.
-- **nlohmann/json**: JSON serialization and deserialization.
 - **spdlog**: Logging.
 - **CMake**: Build configuration.
 
@@ -141,7 +140,6 @@ The configuration file includes:
 ## Goals and What I Learned
 
 ### Goals
-- Implement robust serialization and deserialization of transaction messages.
 - Ensure data integrity through CRC checksums.
 - Efficiently bundle and send messages to RabbitMQ.
 - Provide configurability for debugging and optimization.
@@ -149,7 +147,6 @@ The configuration file includes:
 ### What I Learned
 - Using Boost for shared memory management and CRC computation.
 - Integrating RabbitMQ for message queuing.
-- JSON serialization/deserialization with nlohmann/json.
 - Logging with spdlog.
 - Building a project using CMake.
 
